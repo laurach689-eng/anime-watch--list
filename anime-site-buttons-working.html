@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watchlist</title>
+<style>
+  :root {
+    --ink: #1A1A1B;
+    --paper: #F0EEE8;
+    --card: #FFFFFF;
+    --ink-70: rgba(26, 26, 27, 0.7);
+    --ink-45: rgba(26, 26, 27, 0.45);
+    --ink-20: rgba(26, 26, 27, 0.12);
+    --up: #C8511B;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Header ---------- */
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--card);
+    border-bottom: 1px solid var(--ink-20);
+    z-index: 10;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 0;
+    max-width: 780px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .logo {
+    font-weight: 800;
+    font-size: 18px;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  .search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--ink-20);
+    border-radius: 20px;
+    padding: 8px 14px;
+  }
+
+  .search input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    outline: none;
+  }
+
+  .search input::placeholder { color: var(--ink-45); }
+  .search svg { flex-shrink: 0; opacity: 0.5; }
+
+  /* ---------- Sort tabs ---------- */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 0 0;
+  }
+
+  .tab {
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--ink-70);
+  }
+
+  .tab.active {
+    background: var(--ink);
+    color: var(--card);
+  }
+
+  /* ---------- Feed ---------- */
+  .feed {
+    padding: 16px 0 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .post {
+    display: flex;
+    background: var(--card);
+    border: 1px solid var(--ink-20);
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: border-color 0.15s ease;
+  }
+
+  .post:hover, .post:focus-visible {
+    border-color: var(--ink-45);
+  }
+
+  .vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 10px;
+    background: var(--paper);
+    flex-shrink: 0;
+  }
+
+  .vote button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-45);
+    padding: 2px;
+    display: flex;
+  }
+
+  .vote button:hover, .vote button:focus-visible { color: var(--up); }
+
+  .vote .score {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .thumb {
+    width: 84px;
+    flex-shrink: 0;
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-body {
+    flex: 1;
+    padding: 12px 16px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .post-tags {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-45);
+  }
+
+  .community {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .post-body h3 {
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12.5px;
+    color: var(--ink-45);
+  }
+
+  .platform-tag {
+    color: var(--up);
+    font-weight: 600;
+  }
+
+  /* ---------- Spotlight (pinned post) ---------- */
+  .pinned {
+    border: 1px solid var(--ink-20);
+    border-left: 3px solid var(--up);
+  }
+
+  .pin-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--up);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 32px 0 48px; border-top: 1px solid var(--ink-20); }
+
+  .footer-note {
+    font-size: 13px;
+    color: var(--ink-45);
+    max-width: 480px;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 560px) {
+    .wrap, .nav { padding-left: 14px; padding-right: 14px; }
+    .thumb { width: 64px; }
+    .vote { padding: 10px 6px; }
+    .post-body { padding: 10px 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .tab { border: none; background: transparent; cursor: pointer; font-family: inherit; }
+  .post.is-hidden { display: none; }
+  .vote button.is-voted { color: var(--up); }
+  .vote button:disabled { cursor: default; }
+  .search { position: relative; }
+  .search input { min-width: 0; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#" class="logo">watchlist</a>
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search a title...">
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="tabs" role="tablist" aria-label="Sort watchlist">
+    <button type="button" class="tab active" data-sort="hot" role="tab" aria-selected="true">Hot</button>
+    <button type="button" class="tab" data-sort="new" role="tab" aria-selected="false">New</button>
+    <button type="button" class="tab" data-sort="top" role="tab" aria-selected="false">Top rated</button>
+    <button type="button" class="tab" data-sort="airing" role="tab" aria-selected="false">Airing now</button>
+  </div>
+
+  <div class="feed">
+
+    <a class="post pinned" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">8.7k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/pin/200/240" alt="Poster for the pinned title" loading="eager"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="pin-label">Pinned</span><span class="community">r/Action</span><span>· editor's pick</span></div>
+        <h3>Replace this with the anime you want to spotlight</h3>
+        <div class="post-meta">
+          <span>★ 8.7</span>
+          <span>2024 · 24 eps</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">6.2k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t1/200/240" alt="Poster for Title One" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Action</span><span>· 312 comments</span></div>
+        <h3>Title One</h3>
+        <div class="post-meta">
+          <span>★ 8.9</span>
+          <span>2024</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">5.4k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t2/200/240" alt="Poster for Title Two" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Drama</span><span>· 190 comments</span></div>
+        <h3>Title Two</h3>
+        <div class="post-meta">
+          <span>★ 8.6</span>
+          <span>2023</span>
+          <span class="platform-tag">Watch on Hulu</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">4.1k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t3/200/240" alt="Poster for Title Three" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Comedy</span><span>· 87 comments</span></div>
+        <h3>Title Three</h3>
+        <div class="post-meta">
+          <span>★ 8.4</span>
+          <span>2025</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">3.8k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t4/200/240" alt="Poster for Title Four" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Fantasy</span><span>· 64 comments</span></div>
+        <h3>Title Four</h3>
+        <div class="post-meta">
+          <span>★ 8.2</span>
+          <span>2022</span>
+          <span class="platform-tag">Watch on Netflix</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">2.9k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t5/200/240" alt="Poster for Title Five" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Seasonal</span><span>· ep 4 of 12</span></div>
+        <h3>Title Five</h3>
+        <div class="post-meta">
+          <span>★ 7.9</span>
+          <span>Airing</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="footer-note">Posters shown are placeholder stock images and scores are placeholder numbers — swap each `img src` for real cover art, each `href="#"` for the actual watch link, and wire the vote score up to real data.</p>
+  </div>
+</footer>
+
+
+<script>
+(() => {
+  const searchInput = document.querySelector('.search input');
+  const posts = [...document.querySelectorAll('.feed .post')];
+  const tabs = [...document.querySelectorAll('.tab')];
+
+  // Keep original order and scores so sorting can be changed repeatedly.
+  posts.forEach((post, index) => {
+    post.dataset.originalIndex = index;
+    const score = post.querySelector('.score');
+    const rating = post.querySelector('.post-meta span');
+    post.dataset.votes = score ? score.textContent.trim() : '0';
+    post.dataset.rating = rating ? parseFloat(rating.textContent.replace(/[^\d.]/g, '')) || 0 : 0;
+    post.dataset.airing = /airing/i.test(post.textContent) ? 'true' : 'false';
+    const yearMatch = post.textContent.match(/\b(20\d{2})\b/);
+    post.dataset.year = yearMatch ? yearMatch[1] : '0';
+  });
+
+  function filterAndSort(mode = 'hot') {
+    const query = searchInput.value.trim().toLowerCase();
+
+    const visible = posts.filter(post => {
+      const matchesSearch = !query || post.textContent.toLowerCase().includes(query);
+      const matchesMode =
+        mode !== 'airing' || post.dataset.airing === 'true';
+      return matchesSearch && matchesMode;
+    });
+
+    const ordered = [...visible];
+    if (mode === 'top') {
+      ordered.sort((a, b) => Number(b.dataset.rating) - Number(a.dataset.rating));
+    } else if (mode === 'new') {
+      ordered.sort((a, b) => Number(b.dataset.year) - Number(a.dataset.year));
+    } else if (mode === 'hot') {
+      ordered.sort((a, b) => {
+        const aVotes = parseFloat(a.dataset.votes.replace('k','')) || 0;
+        const bVotes = parseFloat(b.dataset.votes.replace('k','')) || 0;
+        return bVotes - aVotes;
+      });
+    } else {
+      ordered.sort((a, b) => Number(a.dataset.originalIndex) - Number(b.dataset.originalIndex));
+    }
+
+    const feed = document.querySelector('.feed');
+    ordered.forEach(post => feed.appendChild(post));
+    posts.forEach(post => post.classList.toggle('is-hidden', !visible.includes(post)));
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      filterAndSort(tab.dataset.sort);
+    });
+  });
+
+  searchInput.addEventListener('input', () => {
+    const active = document.querySelector('.tab.active');
+    filterAndSort(active ? active.dataset.sort : 'hot');
+  });
+
+  // Voting buttons: update the displayed score without following the card link.
+  document.querySelectorAll('.vote').forEach(voteBox => {
+    const up = voteBox.querySelector('button[aria-label="Upvote"]');
+    const down = voteBox.querySelector('button[aria-label="Downvote"]');
+    const scoreEl = voteBox.querySelector('.score');
+    let score = parseScore(scoreEl.textContent);
+    let vote = 0;
+
+    function render() {
+      scoreEl.textContent = formatScore(score);
+      up.classList.toggle('is-voted', vote === 1);
+      down.classList.toggle('is-voted', vote === -1);
+    }
+
+    up.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (vote === 1) { score--; vote = 0; }
+      else { score += vote === -1 ? 2 : 1; vote = 1; }
+      render();
+    });
+
+    down.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (vote === -1) { score++; vote = 0; }
+      else { score -= vote === 1 ? 2 : 1; vote = -1; }
+      render();
+    });
+  });
+
+  function parseScore(value) {
+    const text = value.toLowerCase().trim();
+    const n = parseFloat(text);
+    return text.includes('k') ? n * 1000 : n;
+  }
+
+  function formatScore(value) {
+    if (value >= 1000) return (Math.round(value / 100) / 10).toFixed(1).replace(/\.0$/, '') + 'k';
+    return String(Math.round(value));
+  }
+
+  // Clicking a post currently gives a small useful placeholder instead of doing nothing.
+  posts.forEach(post => {
+    post.addEventListener('click', event => {
+      if (event.target.closest('.vote')) return;
+      const title = post.querySelector('h3')?.textContent.trim() || 'this title';
+      const platform = post.querySelector('.platform-tag')?.textContent.trim() || '';
+      if (post.getAttribute('href') === '#') {
+        event.preventDefault();
+        alert(`${title}${platform ? '\\n' + platform : ''}\\n\\nReplace this card's href with the real watch/review URL when you're ready.`);
+      }
+    });
+  });
+
+  // Logo returns to the top.
+  document.querySelector('.logo')?.addEventListener('click', event => {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  filterAndSort('hot');
+})();
+</script>
+
+</body>
+</html>
