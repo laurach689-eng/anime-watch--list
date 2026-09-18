@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watchlist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#" class="logo">watchlist</a>
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Search a title...">
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="tabs" role="tablist" aria-label="Sort watchlist">
+    <button type="button" class="tab active" data-sort="hot" role="tab" aria-selected="true">Hot</button>
+    <button type="button" class="tab" data-sort="new" role="tab" aria-selected="false">New</button>
+    <button type="button" class="tab" data-sort="top" role="tab" aria-selected="false">Top rated</button>
+    <button type="button" class="tab" data-sort="airing" role="tab" aria-selected="false">Airing now</button>
+  </div>
+
+  <div class="feed">
+
+    <a class="post pinned" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">8.7k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/pin/200/240" alt="Poster for the pinned title" loading="eager"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="pin-label">Pinned</span><span class="community">r/Action</span><span>· editor's pick</span></div>
+        <h3>Replace this with the anime you want to spotlight</h3>
+        <div class="post-meta">
+          <span>★ 8.7</span>
+          <span>2024 · 24 eps</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">6.2k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t1/200/240" alt="Poster for Title One" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Action</span><span>· 312 comments</span></div>
+        <h3>Title One</h3>
+        <div class="post-meta">
+          <span>★ 8.9</span>
+          <span>2024</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">5.4k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t2/200/240" alt="Poster for Title Two" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Drama</span><span>· 190 comments</span></div>
+        <h3>Title Two</h3>
+        <div class="post-meta">
+          <span>★ 8.6</span>
+          <span>2023</span>
+          <span class="platform-tag">Watch on Hulu</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">4.1k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t3/200/240" alt="Poster for Title Three" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Comedy</span><span>· 87 comments</span></div>
+        <h3>Title Three</h3>
+        <div class="post-meta">
+          <span>★ 8.4</span>
+          <span>2025</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">3.8k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t4/200/240" alt="Poster for Title Four" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Fantasy</span><span>· 64 comments</span></div>
+        <h3>Title Four</h3>
+        <div class="post-meta">
+          <span>★ 8.2</span>
+          <span>2022</span>
+          <span class="platform-tag">Watch on Netflix</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="post" href="#">
+      <div class="vote">
+        <button aria-label="Upvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 10H4z"/></svg></button>
+        <span class="score">2.9k</span>
+        <button aria-label="Downvote"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 20L4 10h16z"/></svg></button>
+      </div>
+      <div class="thumb"><img src="https://picsum.photos/seed/t5/200/240" alt="Poster for Title Five" loading="lazy"></div>
+      <div class="post-body">
+        <div class="post-tags"><span class="community">r/Seasonal</span><span>· ep 4 of 12</span></div>
+        <h3>Title Five</h3>
+        <div class="post-meta">
+          <span>★ 7.9</span>
+          <span>Airing</span>
+          <span class="platform-tag">Watch on Crunchyroll</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="footer-note">Posters shown are placeholder stock images and scores are placeholder numbers — swap each `img src` for real cover art, each `href="#"` for the actual watch link, and wire the vote score up to real data.</p>
+  </div>
+</footer>
+    <script src="script.js"></script>
+
+</body>
+</html>
